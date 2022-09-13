@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as React from 'react';
 import { gql } from "@apollo/client"
 import { useCreateNewTweetMutation } from "./generated/graphql"
+import { GET_TIMELINE_TWEETS } from './Timeline';
+import { GET_CURRENT_USER } from './App';
 
 export interface ComposePanelProps {
   currentUser: { id: string };
@@ -33,10 +35,13 @@ const ComposePanel: React.FC<ComposePanelProps> = ({ currentUser }) => {
     if (!textarea) throw new Error('No textarea found');
     const body = textarea.value;
     createNewTweet({
-      variables: { userId : currentUser.id, body }
-    }).then(() => {
+      variables: { userId : currentUser.id, body },
+      refetchQueries: [GET_TIMELINE_TWEETS, GET_CURRENT_USER]
+    })
+    .then(() => {
       textarea.value = '';
-    }).catch((err:unknown) => {
+    })
+    .catch((err:unknown) => {
       console.error(`Problem creating new tweet`, err)
     })
   };

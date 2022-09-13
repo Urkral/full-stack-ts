@@ -15,6 +15,7 @@
       createdAt: String!
       updatedAt: String!
       stats:UserStats
+      favorites: [Favorite!]
     }
     type Suggestion {
       name: String!
@@ -39,4 +40,11 @@
       favoriteCount: Int!
       retweetCount: Int!
       commentCount: Int!
+    }
+    type Favorite {
+    id: String!
+    tweet: Tweet!
+    user: User!
+    createdAt: String!
+    updatedAt: String!
     }
